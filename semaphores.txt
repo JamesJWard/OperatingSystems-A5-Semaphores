@@ -1,0 +1,54 @@
+Semaphore Assignment
+
+Sets up deadlock conditions for practice detecting and recovering.
+Submit your .c source files and make file if needed
+
+Two semaphores needed screen, keyboard
+
+mother process
+
+  sem_open both semaphores
+
+  fork 4 processes 
+	Each process passed index of loop+1 so 1,2,3, or 4
+
+  after all die
+
+  sem_unlink both 
+End Mother process
+
+each process
+
+Call function to get semaphores (index)
+  returns count of how many times recovered from deadlock
+  odd index gets screen first
+  even index gets keyboard first
+  sem_open
+  loop
+  	sem_wait for first
+  	sem_timedwait with timer for second
+   	if timeout 
+     		give back first, sem_post
+     		wait random time
+		increment count
+   	else
+     		have both  true   
+ until have both
+end get semaphores function
+
+Process (index)
+
+Loop 2 times
+	count = getSemaphores(index)
+
+	loop
+  		prompt "this is process <pid> had <count> deadlocks
+			enter < 80 or q to quit: "
+  		read keboard
+  		echo
+	until quit
+	sem_post or give back both semaphores
+end loop 2 times
+
+sem_close 
+exit
